@@ -3,26 +3,39 @@
 SabbathMode es un plugin para BungeeCord que restringe el acceso al servidor durante el Sabbath.
 
 ## Características
-- Bloquea las conexiones al servidor desde el viernes a las 18:00 hasta el sábado a las 18:00 (zona horaria local del jugador).
-- Permite personalizar el mensaje de denegación en `config.yml`.
-- Incluye un modo de pruebas para ajustar manualmente el rango de horario.
+- Bloquea las conexiones desde el **viernes a las 18:00** hasta el **sábado a las 18:00** (según la zona horaria del jugador).
+- Mensaje de denegación personalizable mediante `config.yml`.
+- Modo de pruebas para ajustar manualmente el rango de horario.
 
 ## Compilación
-Se utiliza Maven para generar el JAR del plugin.
+1. Asegúrate de tener **Java 17** y **Maven** instalados.
+2. Ejecuta:
+   ```bash
+   mvn clean package
+   ```
+   El JAR sombreado aparecerá en `target/`.
 
-```bash
-mvn clean package
-```
-
-El JAR sombreado aparecerá en `target/`.
-
-## Configuración
+## Instalación y uso
 1. Copia `config.yml` en la carpeta de datos del plugin si no se genera automáticamente.
-2. Ajusta el mensaje de denegación en `messages.sabbath-denied`.
-3. Para pruebas, activa la sección `testing` y define días/horarios personalizados.
+2. Ajusta `messages.sabbath-denied` con el mensaje que verán los jugadores.
+3. Coloca el JAR generado en la carpeta `plugins` de tu servidor BungeeCord y reinícialo.
 
-## Uso
-Coloca el JAR generado en la carpeta `plugins` de tu servidor BungeeCord y reinícialo. Cualquier conexión durante el Sabbath mostrará el mensaje configurado y se cancelará.
+### Activar modo de pruebas
+Si deseas probar horarios diferentes, edita la sección `testing` de `config.yml`:
+```yaml
+# Ejemplo de configuración de prueba
+testing:
+  enabled: true
+  sabbath-start-day: FRIDAY
+  sabbath-start-time: "18:00"
+  sabbath-end-day: SATURDAY
+  sabbath-end-time: "18:00"
+```
+Recuerda deshabilitarlo en producción.
+
+## Limitaciones conocidas
+- La detección de zona horaria por IP aún es un **placeholder**, por lo que todos los jugadores se consideran en la misma zona horaria.
+- La descarga de dependencias puede fallar en entornos sin acceso a Internet (por ejemplo, en este entorno de pruebas).
 
 ## Licencia
-Este proyecto se distribuye sin una licencia específica.
+Proyecto sin licencia específica. Puedes adaptarlo según tus necesidades.
