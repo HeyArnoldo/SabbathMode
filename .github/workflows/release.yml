@@ -76,7 +76,6 @@ jobs:
           body: | # Descripción del release
             Nueva versión de SabbathMode.
             Compilado desde el commit: ${{ github.sha }}
-            [Descargar JAR aquí]({{ github.server_url }}/{{ github.repository }}/releases/download/v${{ github.sha }}/sabbathmode-1.0-SNAPSHOT.jar) # Link de descarga provisional
           draft: false # Si es un borrador de release (true/false)
           prerelease: false # Si es un pre-release (true/false)
 
@@ -89,6 +88,6 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # URL para subir el asset del release
           asset_path: ./sabbathmode-1.0-SNAPSHOT.jar # Ruta al archivo JAR descargado.
           # Asegúrate de que el nombre del archivo es exacto.
-          asset_name: SabbathMode-${{ github.ref_name }}.jar # Nombre del archivo adjunto en la release (ej. SabbathMode-main.jar)
+          asset_name: SabbathMode.jar # Nombre del archivo adjunto en la release (ej. SabbathMode-main.jar)
           # O usa SabbathMode-${{ github.run_number }}.jar
           asset_content_type: application/java-archive # Tipo MIME del archivo
