@@ -23,24 +23,15 @@ public class SabbathManager {
     }
 
     public SabbathCheckResult isSabbath(String playerIp){
-        //ACÁ SE ENLAZA CON LA API DE GEOLOCAKIZACIÓN PERO TODAVÍA NO LO HACEMOS xd
         ZoneId playerZoneId = null;
 
         try{
-            // EJEMPLO: Esto debería ser reemplazado por la llamada a tu servicio GeoIP.
-            // Si tienes una clase `GeoIpService`, sería algo como:
-            // String timezoneString = geoIpService.getTimezone(playerIp);
-            // if (timezoneString != null) {
-            //     playerZoneId = ZoneId.of(timezoneString);
-            // } else {
-            //     plugin.getLogger().warning("No se pudo determinar la zona horaria para IP: " + playerIp + ". Usando zona de fallback.");
-            //     playerZoneId = ZoneId.of("America/Mexico_City"); // Zona de fallback si GeoIP falla
-            // }
+            //ACÁ SE ENLAZA CON LA API DE GEOLOCALIZACIÓN PERO TODAVÍA NO LO HACEMOS xd
 
-            playerZoneId = ZoneId.of("America/Mexico_City"); // Zona horaria de Ciudad de México por defecto
+            playerZoneId = ZoneId.of("America/Lima"); // PLACEHOLDER
         } catch (Exception e) {
             plugin.getLogger().warning("Error al intentar determinar la zona horaria de la ip: " + playerIp + " :" + e.getMessage());
-            playerZoneId = ZoneId.of("America/Mexico_City"); // Fallback
+            playerZoneId = ZoneId.of("America/Lima"); // Fallback
         }
 
         ZonedDateTime nowInPlayerZone = ZonedDateTime.now(playerZoneId);

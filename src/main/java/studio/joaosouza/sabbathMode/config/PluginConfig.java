@@ -84,11 +84,6 @@ public class PluginConfig {
             changed = true;
         }
 
-        // if (!config.contains("settings.fallback-timezone")) {
-        //     config.set("settings.fallback-timezone", "America/Mexico_City");
-        //     changed = true;
-        // }
-
         if (changed) {
             try {
                 ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, configFile);

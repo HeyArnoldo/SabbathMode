@@ -4,12 +4,12 @@
 #   {zone_id}: Será reemplazado por la zona horaria detectada del jugador (ej. America/Mexico_City).
 #   {saturday_sunset_time}: Será reemplazado por la hora de finalización del Sabbath en la zona horaria del jugador (ej. 18:00).
 messages:
-  sabbath-denied: "&c¡Hola! En tu zona horaria ({zone_id}), es Sábado desde la puesta de sol hasta la puesta de sol. &cEl acceso está restringido durante este período por motivos religiosos. &cPor favor, intenta conectarte de nuevo después de las {saturday_sunset_time} (hora local)."
+  sabbath-denied: "&4El servidor está cerrado hoy.\n&f\n&f9 Seis días trabajarás, y harás toda tu obra;\n&f10 mas el séptimo día es reposo para Jehová tu Dios;\n&6Exodo 20:9-10\n&f\n&c¡Hola! En tu zona horaria ({zone_id}), es Sábado desde la puesta de sol hasta la puesta de sol.\n&cEl acceso está restringido durante este período por motivos religiosos.\n&cPor favor, intenta conectarte de nuevo después de las &e{saturday_sunset_time} &c(hora local)."
 
 # Configuración para TESTING. ESTO DEBE SER DESACTIVADO EN PRODUCCIÓN.
 testing:
   # Habilita o deshabilita el modo de prueba. Deshabilita en producción.
-  enabled: true
+  enabled: false
   # Define el día y la hora de inicio del Sabbath para pruebas (formato HH:mm)
   # Día: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
   # Ej: Para que el Sabbath empiece el Jueves a las 10:00 AM (hora local del jugador)

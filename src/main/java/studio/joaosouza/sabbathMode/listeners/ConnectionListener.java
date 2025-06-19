@@ -20,7 +20,6 @@ public class ConnectionListener implements Listener {
 
     @EventHandler
     public void onPreLogin(PreLoginEvent event) {
-        // Buena práctica: Si el evento ya fue cancelado por otro plugin, salimos.
         if (event.isCancelled()) {
             return;
         }
@@ -32,15 +31,12 @@ public class ConnectionListener implements Listener {
         SabbathManager.SabbathCheckResult checkResult = plugin.getSabbathManager().isSabbath(ipAddress);
 
         if (checkResult.isSabbathActive()) {
-            // Si es Sabbath, preparamos el mensaje de denegación
             String deniedMessage = plugin.getPluginConfig().getSabbathDeniedMessage()
                     .replace("{zone_id}", checkResult.getZoneId() != null ? checkResult.getZoneId().getId() : "Desconocida")
                     .replace("{saturday_sunset_time}", checkResult.getSaturdaySunsetTime());
 
-            // Traduce los códigos de color '&' a los códigos de color de Minecraft
             String formattedDeniedMessage = ChatColor.translateAlternateColorCodes('&', deniedMessage);
 
-            // Establece el motivo de la cancelación y cancela el evento
             event.setCancelReason(new TextComponent(formattedDeniedMessage));
             event.setCancelled(true);
             plugin.getLogger().info("Conexión de " + playerName + " (IP: " + ipAddress + ") CANCELADA por SabbathMode. Zona: " + checkResult.getZoneId());

@@ -60,9 +60,7 @@ public final class SabbathMode extends Plugin {
     @Override
     public void onDisable() {
         getLogger().info("§aSabbathMode §f- §cCerrando...");
-        // Es buena práctica desregistrar listeners y comandos al deshabilitar el plugin
         ProxyServer.getInstance().getPluginManager().unregisterListeners(this);
-        // Si tuvieras comandos: getProxy().getPluginManager().unregisterCommands(this);
         getLogger().info("§aSabbathMode §f- §cDeshabilitado.");
     }
 
