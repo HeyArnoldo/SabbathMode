@@ -13,9 +13,9 @@ testing:
   # Define el día y la hora de inicio del Sabbath para pruebas (formato HH:mm)
   # Día: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
   # Ej: Para que el Sabbath empiece el Jueves a las 10:00 AM (hora local del jugador)
-  sabbath-start-day: THURSDAY
-  sabbath-start-time: "10:00"
+  sabbath-start-day: FRIDAY
+  sabbath-start-time: "18:00"
   # Define el día y la hora de fin del Sabbath para pruebas (formato HH:mm)
   # Ej: Para que el Sabbath termine el Jueves a las 11:00 AM (hora local del jugador)
-  sabbath-end-day: THURSDAY
-  sabbath-end-time: "11:00"
+  sabbath-end-day: SATURDAY
+  sabbath-end-time: "18:00"
