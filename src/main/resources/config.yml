@@ -19,3 +19,5 @@ testing:
   # Ej: Para que el Sabbath termine el Jueves a las 11:00 AM (hora local del jugador)
   sabbath-end-day: SATURDAY
   sabbath-end-time: "18:00"
+
+# PRÓXIMO: WHITELIST
