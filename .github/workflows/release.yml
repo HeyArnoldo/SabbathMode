@@ -5,7 +5,7 @@ on:
     # Se activa cuando se hace un push a la rama 'main' (o tu rama principal)
     # Puedes cambiar 'main' a 'master' si esa es tu rama principal.
     branches:
-      - main
+      - master
     # Opcional: Solo se activa si hay un cambio en el pom.xml o archivos Java
     # paths:
     #   - 'pom.xml'
