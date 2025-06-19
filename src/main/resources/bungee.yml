@@ -1,0 +1,5 @@
+name: SabbathMode
+version: ${project.version}
+main: studio.joaosouza.sabbathMode.SabbathMode
+author: ImJoaoSouza
+description: Restringe el acceso al servidor durante el Sabbath basado en la zona horaria del jugador.

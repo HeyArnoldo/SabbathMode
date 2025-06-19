@@ -1,0 +1,54 @@
+package studio.joaosouza.sabbathMode.listeners;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.event.PreLoginEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
+import studio.joaosouza.sabbathMode.SabbathMode;
+import studio.joaosouza.sabbathMode.managers.SabbathManager;
+
+import java.net.InetSocketAddress;
+
+public class ConnectionListener implements Listener {
+
+    private final SabbathMode plugin;
+
+    public ConnectionListener(SabbathMode plugin) {
+        this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onPreLogin(PreLoginEvent event) {
+        // Buena práctica: Si el evento ya fue cancelado por otro plugin, salimos.
+        if (event.isCancelled()) {
+            return;
+        }
+
+        InetSocketAddress address = event.getConnection().getAddress();
+        String ipAddress = address.getAddress().getHostAddress();
+        String playerName = event.getConnection().getName();
+
+        SabbathManager.SabbathCheckResult checkResult = plugin.getSabbathManager().isSabbath(ipAddress);
+
+        if (checkResult.isSabbathActive()) {
+            // Si es Sabbath, preparamos el mensaje de denegación
+            String deniedMessage = plugin.getPluginConfig().getSabbathDeniedMessage()
+                    .replace("{zone_id}", checkResult.getZoneId() != null ? checkResult.getZoneId().getId() : "Desconocida")
+                    .replace("{saturday_sunset_time}", checkResult.getSaturdaySunsetTime());
+
+            // Traduce los códigos de color '&' a los códigos de color de Minecraft
+            String formattedDeniedMessage = ChatColor.translateAlternateColorCodes('&', deniedMessage);
+
+            // Establece el motivo de la cancelación y cancela el evento
+            event.setCancelReason(new TextComponent(formattedDeniedMessage));
+            event.setCancelled(true);
+            plugin.getLogger().info("Conexión de " + playerName + " (IP: " + ipAddress + ") CANCELADA por SabbathMode. Zona: " + checkResult.getZoneId());
+        } else {
+            // Si no es Sabbath, permitimos la conexión
+            plugin.getLogger().info("Conexión de " + playerName + " (IP: " + ipAddress + ") PERMITIDA. No es Sabbath en su zona horaria (" + checkResult.getZoneId() + ").");
+        }
+    }
+
+
+}
