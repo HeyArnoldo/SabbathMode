@@ -20,4 +20,9 @@ testing:
   sabbath-end-day: SATURDAY
   sabbath-end-time: "18:00"
 
-# PRÓXIMO: WHITELIST de USUARIOS
+# Lista de jugadores que pueden conectarse durante el Sabbath.
+# Escribe sus nombres exactos (sin color ni formato).
+whitelist:
+  - EjemploUsuario1
+  - EjemploUsuario2
+

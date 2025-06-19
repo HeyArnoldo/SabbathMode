@@ -24,6 +24,8 @@ public class PluginConfig {
     private DayOfWeek testSabbathEndDay;
     private LocalTime testSabbathEndTime;
 
+    private java.util.Set<String> whitelistedPlayers;
+
 
     public PluginConfig(Plugin plugin, File configFile) {
         this.plugin = plugin;
@@ -35,6 +37,19 @@ public class PluginConfig {
             //CONFIGURACIÓN DESDE YAML
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
             sabbathDeniedMessage = config.getString("messages.sabbath-denied", "&cEl servidor está cerrado hoy.\n\n&79. Seis días trabajarás, y harás toda tu obra;\n&710. mas el séptimo día es reposo para Jehová tu Dios;\n&6Exodo 20:9-10\n\n&cAcceso restringido en tu zona horaria (&e{zone_id}&c).\n&cPuedes ingresar a partir del &eSábado &ca las &e{saturday_sunset_time} &c(hora local).");
+
+            // CARGAR LISTA DE WHITELIST
+            java.util.List<String> wl = config.getStringList("whitelist");
+            if (wl != null) {
+                whitelistedPlayers = new java.util.HashSet<>();
+                for (String p : wl) {
+                    if (p != null) {
+                        whitelistedPlayers.add(p.toLowerCase());
+                    }
+                }
+            } else {
+                whitelistedPlayers = java.util.Collections.emptySet();
+            }
 
             // CARGAR CONFIGURACIONES DE TESTING:
             testingEnabled = config.getBoolean("testing.enabled", false);
@@ -79,6 +94,14 @@ public class PluginConfig {
             changed = true;
         }
 
+        if (!config.contains("whitelist")) {
+            java.util.List<String> defaults = new java.util.ArrayList<>();
+            defaults.add("EjemploUsuario1");
+            defaults.add("EjemploUsuario2");
+            config.set("whitelist", defaults);
+            changed = true;
+        }
+
         if (changed) {
             try {
                 ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, configFile);
@@ -111,5 +134,9 @@ public class PluginConfig {
 
     public LocalTime getTestSabbathEndTime() {
         return testSabbathEndTime;
+    }
+
+    public java.util.Set<String> getWhitelistedPlayers() {
+        return whitelistedPlayers;
     }
 }

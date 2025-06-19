@@ -6,6 +6,7 @@ SabbathMode es un plugin para BungeeCord que restringe el acceso al servidor dur
 - Bloquea las conexiones desde el **viernes a las 18:00** hasta el **sábado a las 18:00** (según la zona horaria del jugador).
 - Mensaje de denegación personalizable mediante `config.yml`.
 - Modo de pruebas para ajustar manualmente el rango de horario.
+- Whitelist de jugadores que pueden ingresar durante el Sabbath.
 
 ## Compilación
 1. Asegúrate de tener **Java 17** y **Maven** instalados.
@@ -18,7 +19,8 @@ SabbathMode es un plugin para BungeeCord que restringe el acceso al servidor dur
 ## Instalación y uso
 1. Copia `config.yml` en la carpeta de datos del plugin si no se genera automáticamente.
 2. Ajusta `messages.sabbath-denied` con el mensaje que verán los jugadores.
-3. Coloca el JAR generado en la carpeta `plugins` de tu servidor BungeeCord y reinícialo.
+3. Modifica `whitelist` para agregar jugadores exentos de la restricción.
+4. Coloca el JAR generado en la carpeta `plugins` de tu servidor BungeeCord y reinícialo.
 
 ### Activar modo de pruebas
 Si deseas probar horarios diferentes, edita la sección `testing` de `config.yml`:

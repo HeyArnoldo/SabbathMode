@@ -28,6 +28,11 @@ public class ConnectionListener implements Listener {
         String ipAddress = address.getAddress().getHostAddress();
         String playerName = event.getConnection().getName();
 
+        if (plugin.getPluginConfig().getWhitelistedPlayers().contains(playerName.toLowerCase())) {
+            plugin.getLogger().info("Conexión de " + playerName + " (IP: " + ipAddress + ") PERMITIDA por whitelist.");
+            return;
+        }
+
         SabbathManager.SabbathCheckResult checkResult = plugin.getSabbathManager().isSabbath(ipAddress);
 
         if (checkResult.isSabbathActive()) {
