@@ -71,7 +71,7 @@ jobs:
           tag_name: v${{ github.sha }} # Crea un tag basado en el SHA del commit. Recomendado para releases automáticos.
             # Alternativa: v${{ github.ref_name }} si usas tags manuales (ej. v1.0.0)
           # Alternativa si usas input: ${{ github.event.inputs.version }}
-          release_name: Release ${{ github.run_number }} # Nombre de la release (ej. Release 123)
+          release_name: SabbathMode ${{ github.run_number }} # Nombre de la release (ej. Release 123)
           # Alternativa: Release v${{ github.event.inputs.version }}
           body: | # Descripción del release
             Nueva versión de SabbathMode.
