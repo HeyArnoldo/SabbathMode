@@ -34,7 +34,7 @@ testing:
 Recuerda deshabilitarlo en producción.
 
 ## Limitaciones conocidas
-- La detección de zona horaria por IP aún es un **placeholder**, por lo que todos los jugadores se consideran en la misma zona horaria.
+- La detección de zona horaria ahora se realiza a través de `ipapi.co`. Si la consulta falla se usará la zona horaria por defecto del servidor.
 - La descarga de dependencias puede fallar en entornos sin acceso a Internet (por ejemplo, en este entorno de pruebas).
 
 ## Licencia
