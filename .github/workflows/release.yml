@@ -1,0 +1,94 @@
+name: Build & Create GitHub Release # Nombre del flujo de trabajo
+
+on:
+  push:
+    # Se activa cuando se hace un push a la rama 'main' (o tu rama principal)
+    # Puedes cambiar 'main' a 'master' si esa es tu rama principal.
+    branches:
+      - main
+    # Opcional: Solo se activa si hay un cambio en el pom.xml o archivos Java
+    # paths:
+    #   - 'pom.xml'
+    #   - 'src/main/java/**'
+
+  workflow_dispatch: # Permite ejecutar el workflow manualmente desde la interfaz de GitHub Actions
+    inputs:
+      version:
+        description: 'Version de la release (ej. 1.0.0)'
+        required: false # Deja que Maven defina la version del POM
+        default: '' # Opcional: podrías usar ${github.run_number} para autogenerar
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Ejecuta el trabajo en un entorno Linux (Ubuntu)
+
+    steps:
+      # Paso 1: Clonar el repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4 # Usa la acción oficial para clonar el repositorio
+
+      # Paso 2: Configurar Java JDK (necesario para Maven)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17' # Asegúrate de que coincida con tu <java.version> en pom.xml
+          distribution: 'temurin' # Distribución recomendada para GitHub Actions
+          cache: 'maven' # Cachea las dependencias de Maven para builds más rápidos
+
+      # Paso 3: Compilar el proyecto Maven
+      - name: Build with Maven
+        run: mvn clean package -DskipTests # Ejecuta el comando de Maven. -DskipTests para saltar tests.
+
+      # Paso 4: Subir el artefacto JAR para usarlo en el siguiente job (Release)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sabbathmode-jar # Nombre del artefacto
+          path: target/sabbathmode-*-shaded.jar # Ruta a tu JAR sombreado. Usa * para cualquier versión/nombre exacto
+
+  create-release:
+    needs: build # Este job depende del job 'build' para asegurar que el JAR se haya creado
+    runs-on: ubuntu-latest
+
+    # Solo se ejecuta si el evento que lo disparó fue un 'push' y la rama es 'main'
+    # o si es un 'workflow_dispatch' (ejecución manual)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      # Paso 1: Descargar el artefacto JAR subido en el job 'build'
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sabbathmode-jar # Debe coincidir con el 'name' del upload-artifact
+
+      # Paso 2: Crear el Release de GitHub
+      - name: Create Release
+        id: create_release # Id para referenciar la salida de este paso
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # Token automático para autenticación
+        with:
+          tag_name: v${{ github.sha }} # Crea un tag basado en el SHA del commit. Recomendado para releases automáticos.
+            # Alternativa: v${{ github.ref_name }} si usas tags manuales (ej. v1.0.0)
+          # Alternativa si usas input: ${{ github.event.inputs.version }}
+          release_name: Release ${{ github.run_number }} # Nombre de la release (ej. Release 123)
+          # Alternativa: Release v${{ github.event.inputs.version }}
+          body: | # Descripción del release
+            Nueva versión de SabbathMode.
+            Compilado desde el commit: ${{ github.sha }}
+            [Descargar JAR aquí]({{ github.server_url }}/{{ github.repository }}/releases/download/v${{ github.sha }}/sabbathmode-1.0-SNAPSHOT-shaded.jar) # Link de descarga provisional
+          draft: false # Si es un borrador de release (true/false)
+          prerelease: false # Si es un pre-release (true/false)
+
+      # Paso 3: Adjuntar el JAR compilado al Release
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # URL para subir el asset del release
+          asset_path: ./sabbathmode-1.0-SNAPSHOT-shaded.jar # Ruta al archivo JAR descargado.
+          # Asegúrate de que el nombre del archivo es exacto.
+          asset_name: SabbathMode-${{ github.ref_name }}.jar # Nombre del archivo adjunto en la release (ej. SabbathMode-main.jar)
+          # O usa SabbathMode-${{ github.run_number }}.jar
+          asset_content_type: application/java-archive # Tipo MIME del archivo
