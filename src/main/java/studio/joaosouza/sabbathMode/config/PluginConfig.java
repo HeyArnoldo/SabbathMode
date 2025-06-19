@@ -139,4 +139,60 @@ public class PluginConfig {
     public java.util.Set<String> getWhitelistedPlayers() {
         return whitelistedPlayers;
     }
+
+    // --- Métodos de actualización y guardado ---
+
+    public void reloadConfig() {
+        loadConfig();
+    }
+
+    public void saveConfig() {
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, configFile);
+        } catch (Exception ex) {
+            plugin.getLogger().severe("Error al guardar la configuración: " + ex.getMessage());
+        }
+    }
+
+    public void addWhitelistedPlayer(String player) {
+        if (whitelistedPlayers.add(player.toLowerCase())) {
+            config.set("whitelist", new java.util.ArrayList<>(whitelistedPlayers));
+            saveConfig();
+        }
+    }
+
+    public void removeWhitelistedPlayer(String player) {
+        if (whitelistedPlayers.remove(player.toLowerCase())) {
+            config.set("whitelist", new java.util.ArrayList<>(whitelistedPlayers));
+            saveConfig();
+        }
+    }
+
+    public void setSabbathDeniedMessage(String message) {
+        this.sabbathDeniedMessage = message;
+        config.set("messages.sabbath-denied", message);
+        saveConfig();
+    }
+
+    public void setTestingEnabled(boolean enabled) {
+        this.testingEnabled = enabled;
+        config.set("testing.enabled", enabled);
+        saveConfig();
+    }
+
+    public void setTestSabbathStart(DayOfWeek day, LocalTime time) {
+        this.testSabbathStartDay = day;
+        this.testSabbathStartTime = time;
+        config.set("testing.sabbath-start-day", day.name());
+        config.set("testing.sabbath-start-time", time.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+        saveConfig();
+    }
+
+    public void setTestSabbathEnd(DayOfWeek day, LocalTime time) {
+        this.testSabbathEndDay = day;
+        this.testSabbathEndTime = time;
+        config.set("testing.sabbath-end-day", day.name());
+        config.set("testing.sabbath-end-time", time.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+        saveConfig();
+    }
 }

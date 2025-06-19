@@ -5,6 +5,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import studio.joaosouza.sabbathMode.config.PluginConfig;
 import studio.joaosouza.sabbathMode.listeners.ConnectionListener;
 import studio.joaosouza.sabbathMode.managers.SabbathManager;
+import studio.joaosouza.sabbathMode.commands.SabbathCommand;
 
 import java.io.File;
 import java.io.InputStream;
@@ -52,6 +53,7 @@ public final class SabbathMode extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerListener(this, new ConnectionListener(this));
 
         //4. REGISTRAR COMANDOS
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new SabbathCommand(this));
         getLogger().info("----------------------------------------");
         getLogger().info(" §aSabbathMode §f- §aHabilitado Correctamente.");
         getLogger().info("----------------------------------------");
