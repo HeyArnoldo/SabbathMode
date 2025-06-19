@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sabbathmode-jar # Nombre del artefacto
-          path: target/sabbathmode-*-shaded.jar # Ruta a tu JAR sombreado. Usa * para cualquier versión/nombre exacto
+          path: target/sabbathmode-*.jar # Ruta a tu JAR sombreado. Usa * para cualquier versión/nombre exacto
 
   create-release:
     needs: build # Este job depende del job 'build' para asegurar que el JAR se haya creado
