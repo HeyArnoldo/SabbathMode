@@ -34,10 +34,7 @@ public class PluginConfig {
         try{
             //CONFIGURACIÓN DESDE YAML
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
-            sabbathDeniedMessage = config.getString("messages.sabbath-denied",
-                    "&c¡Hola! En tu zona horaria ({zone_id}), es Sábado desde la puesta de sol hasta la puesta de sol. " +
-                            "&cEl acceso está restringido durante este período por motivos religiosos. " +
-                            "&cPor favor, intenta conectarte de nuevo después de las {saturday_sunset_time} (hora local).");
+            sabbathDeniedMessage = config.getString("messages.sabbath-denied", "&cEl servidor está cerrado hoy.\n\n&79. Seis días trabajarás, y harás toda tu obra;\n&710. mas el séptimo día es reposo para Jehová tu Dios;\n&6Exodo 20:9-10\n\n&cAcceso restringido en tu zona horaria (&e{zone_id}&c).\n&cPuedes ingresar a partir del &eSábado &ca las &e{saturday_sunset_time} &c(hora local).");
 
             // CARGAR CONFIGURACIONES DE TESTING:
             testingEnabled = config.getBoolean("testing.enabled", false);
@@ -69,9 +66,7 @@ public class PluginConfig {
         boolean changed = false;
 
         if (!config.contains("messages.sabbath-denied")) {
-            config.set("messages.sabbath-denied", "&c¡Hola! En tu zona horaria ({zone_id}), es Sábado desde la puesta de sol hasta la puesta de sol. " +
-                    "&cEl acceso está restringido durante este período por motivos religiosos. " +
-                    "&cPor favor, intenta conectarte de nuevo después de las {saturday_sunset_time} (hora local).");
+            config.set("messages.sabbath-denied", "&cEl servidor está cerrado hoy.\n\n&79. Seis días trabajarás, y harás toda tu obra;\n&710. mas el séptimo día es reposo para Jehová tu Dios;\n&6Exodo 20:9-10\n\n&cAcceso restringido en tu zona horaria (&e{zone_id}&c).\n&cPuedes ingresar a partir del &eSábado &ca las &e{saturday_sunset_time} &c(hora local).");
             changed = true;
         }
 
