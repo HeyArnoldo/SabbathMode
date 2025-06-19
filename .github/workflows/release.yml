@@ -52,7 +52,7 @@ jobs:
 
     # Solo se ejecuta si el evento que lo disparó fue un 'push' y la rama es 'main'
     # o si es un 'workflow_dispatch' (ejecución manual)
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
 
     steps:
       # Paso 1: Descargar el artefacto JAR subido en el job 'build'
